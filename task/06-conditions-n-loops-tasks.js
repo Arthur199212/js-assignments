@@ -430,7 +430,7 @@ function timespanToHumanString(startDate, endDate) {
     return `${Math.round(diff / 30 / day)} months ago`;
   if (diff <= 545 * day)
     return 'a year ago';
-    
+
   return `${Math.round(diff / 365 / day)} years ago`;
 }
 
@@ -455,7 +455,18 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    let targetNum = [],
+    prime = num,
+    float,
+    targetBase = n;
+
+do {
+  float = prime % targetBase;
+  prime = Math.floor(prime / targetBase);
+  targetNum.unshift( float );
+} while (prime > 0);
+
+return targetNum.join('');
 }
 
 
