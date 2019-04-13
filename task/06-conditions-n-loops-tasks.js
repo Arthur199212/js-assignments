@@ -75,7 +75,6 @@ function getFactorial(num) {
 function getSumBetweenNumbers(n1, n2) {
     let sum = 0;
     for (let i = n1; i <= n2; i++) {
-      console.log(i);
       sum += i;
     }
     return sum;
@@ -185,8 +184,14 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+function findFirstSingleChar(string) {
+    for (var i = 0; i < string.length; i++) {
+        var c = string.charAt(i);
+        if (string.indexOf(c) == i && string.indexOf(c, i + 1) == -1) {
+          return c;
+        }
+      }
+    return null;
 }
 
 
@@ -212,7 +217,23 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    let start = [],
+    end = [],
+    first = [],
+    last = [];
+
+    isStartIncluded ? start.push('[') : start.push('(');
+    isEndIncluded ? end.push(']') : end.push(')');
+
+    if (a <= b) {
+        first.push(a);
+        last.push(b);
+    } else {    
+        first.push(b);
+        last.push(a);
+    }
+
+    return start[0] + first[0] + ', ' + last[0] + end[0];
 }
 
 
@@ -229,7 +250,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('');
 }
 
 
@@ -246,7 +267,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return num.toString().split('').reverse().join('');
 }
 
 
@@ -271,7 +292,12 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    return ccn.toString().split('')
+        .reverse()
+        .map( (x) => parseInt(x) )
+        .map( (x,idx) => idx % 2 ? x * 2 : x )
+        .map( (x) => x > 9 ? (x % 10) + 1 : x )
+        .reduce( (accum, x) => accum += x ) % 10 === 0;
 }
 
 
@@ -290,7 +316,15 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    num = num.toString().split('').reduce( (accumulator, currentValue) => +accumulator + +currentValue );
+
+    if (num.toString().length == 1) {
+      return num;
+    } else {
+      num = getDigitalRoot(num);
+    }
+  
+    return num;
 }
 
 
@@ -316,7 +350,24 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let stack = [];
+    let opening = ['[', '(', '<', '{'],
+        closing = [']', ')', '>', '}'];
+        let last,
+            indexToChech;
+  
+    for(let i = 0; i < str.length; i++) {
+      if ( opening.indexOf(str[i]) > -1 ) {
+        stack.push(str[i]);
+      } else {
+        last = stack.pop();
+        indexToChech = opening.indexOf(last);
+        if (closing[indexToChech] !== str[i]) return false;
+      }
+    }
+  
+    if (stack.length != 0) return false;
+    return true;
 }
 
 
@@ -352,7 +403,35 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    let diff = Math.abs(new Date(startDate).getTime() - new Date(endDate).getTime());
+
+    let sec = 1000,
+        min = sec * 60,
+        h = min * 60,
+        day = h * 24;
+  
+  if (diff <= 45 * sec)
+    return 'a few seconds ago';
+  if (diff <= 90 * sec)
+    return 'a minute ago';
+  if (diff <= 45 * min)
+    return `${Math.round((diff - 1) / min)} minutes ago`;
+  if (diff <= 90 * min)
+    return 'an hour ago';
+  if (diff <= 22 * h)
+    return `${Math.round((diff - 1) / h)} hours ago`;
+  if (diff <= 36 * h)
+    return 'a day ago';
+  if (diff <= 25 * day)
+    return `${Math.round((diff - 1) / day)} days ago`;
+  if (diff <= 45 * day)
+    return 'a month ago';
+  if (diff <= 345 * day)
+    return `${Math.round(diff / 30 / day)} months ago`;
+  if (diff <= 545 * day)
+    return 'a year ago';
+    
+  return `${Math.round(diff / 365 / day)} years ago`;
 }
 
 
