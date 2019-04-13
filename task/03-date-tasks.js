@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 
@@ -55,8 +55,9 @@ function parseDataFromIso8601(value) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(date) {
-   throw new Error('Not implemented');
+function isLeapYear(data) {
+   let year = data.getFullYear();
+   return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 }
 
 
@@ -75,8 +76,38 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+function timeSpanToString(date1, date2) {
+   let hour = Math.abs( date1.getHours() - date2.getHours() ).toString().split('') ;
+   let min = Math.abs( date1.getMinutes() - date2.getMinutes() ).toString().split('');
+   let sec = Math.abs( date1.getSeconds() - date2.getSeconds() ).toString().split('');
+   let msec = Math.abs( date1.getMilliseconds() - date2.getMilliseconds() ).toString().split('');
+ 
+   if ( hour.length < 2 ) {
+     hour.unshift('0');
+     hour = hour.join('').split(' ');
+   }
+ 
+   if ( min.length < 2 ) {
+     min.unshift('0');
+     min = min.join('').split(' ');
+   }
+ 
+   if ( sec.length < 2 ) {
+     sec.unshift('0');
+     sec = sec.join('').split(' ');
+   }
+ 
+   if ( msec.length < 3 ) {
+     msec.unshift('0');
+     msec = msec.join('').split(' ');
+   }
+
+   if ( msec.length < 2 ) {
+      msec.unshift('0');
+      msec = msec.join('').split(' ');
+    }
+ 
+   return hour.join('') + ':' +  min.join('') + ':' + sec.join('') + '.' + msec.join('');
 }
 
 
@@ -94,7 +125,27 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+   let hours = (new Date(date)).getUTCHours(),
+   minutes = (new Date(date)).getUTCMinutes();
+   // sec = (new Date(date)).getSeconds();
+
+   hours = hours % 12;
+
+let hourMinPart = 0.5 * minutes,
+   hourHourPart = 30 * hours,
+   minAngle = 6 * minutes,
+   totalAngle = Math.abs(hourMinPart + hourHourPart - minAngle);
+
+   // console.log( (new Date(date)).toUTCString() );
+   // console.log( hours + ' hours : ' + minutes + ' minutes' );
+
+   let result = totalAngle * Math.PI / 180;
+   
+   if (totalAngle * Math.PI / 180 > Math.PI) {
+     result = totalAngle * Math.PI / 180 - Math.PI;
+   }
+
+   return result;
 }
 
 
