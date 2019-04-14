@@ -483,7 +483,22 @@ return targetNum.join('');
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    let chechedArr = [];
+
+    for (let i = 0; i < pathes[0].length; i++) {
+        let isSimilar = true;
+        for (let j = 1; j < pathes.length; j++)
+            if (pathes[0][i] != pathes[j][i]) {
+                isSimilar = false;
+                break;
+            }
+        if (!isSimilar)
+            break;
+        else
+          chechedArr.push(pathes[0][i]);
+    }
+
+return chechedArr.join('').slice(0, chechedArr.lastIndexOf('/') + 1 );
 }
 
 
