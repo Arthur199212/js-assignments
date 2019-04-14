@@ -521,7 +521,19 @@ return chechedArr.join('').slice(0, chechedArr.lastIndexOf('/') + 1 );
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+  let sum = [];
+
+  for (let i = 0; i < m1.length; i++) {
+    sum[i] = [];
+      for (let j = 0; j < m2[i].length; j++) {
+        sum[i][j] = 0;
+          for (let t = 0; t < m1[i].length; t++) {
+          sum[i][j] = sum[i][j] + m1[i][t] * m2[t][j];
+          }
+      }
+  }
+
+  return sum;
 }
 
 
