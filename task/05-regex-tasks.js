@@ -31,7 +31,7 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-   throw new Error('Not implemented');
+   return new RegExp(`^\\{${'[\\da-fA-F]'}{8}-${'[\\da-fA-F]'}{4}-${'[\\da-fA-F]'}{4}-${'[\\da-fA-F]'}{4}-${'[\\da-fA-F]'}{12}\\}$`, 'i');
 }
 
 
