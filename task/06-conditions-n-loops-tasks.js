@@ -555,8 +555,59 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+function evaluateTicTacToePosition(pos) {
+  let vert1 = [],
+      vert2 = [],
+      vert3 = [],
+      diag1 = [],
+      diag2 = [];
+
+      vert1.push(pos[0][0]);
+    vert1.push(pos[1][0]);
+    vert1.push(pos[2][0]);
+
+    vert2.push(pos[0][1]);
+    vert2.push(pos[1][1]);
+    vert2.push(pos[2][1]);
+
+    vert3.push(pos[0][2]);
+    vert3.push(pos[1][2]);
+    vert3.push(pos[2][2]);
+
+    diag1.push(pos[0][0]);
+    diag1.push(pos[1][1]);
+    diag1.push(pos[2][2]);
+
+    diag2.push(pos[0][2]);
+    diag2.push(pos[1][1]);
+    diag2.push(pos[2][0]);
+
+
+  for (let i = 0; i < pos.length; i++) {
+    for (let j = 0; j < pos[i].length; j++) {
+      if (typeof pos[i][j] === 'undefined') pos[i][j] = 'notFiled';
+    }
+  }
+
+  if (check('0')) return '0';
+  if (check('X')) return 'X';
+  
+  return undefined;
+
+  function check(item) {
+    if ( pos[0].every( i => i == item ) && pos[0].length == 3 ) return true;
+    if ( pos[1].every( i => i == item ) && pos[1].length == 3 ) return true;
+    if ( pos[2].every( i => i == item ) && pos[2].length == 3 ) return true;
+
+    if ( vert1.every( i => i == item ) && vert1.length == 3 ) return true;
+    if ( vert2.every( i => i == item ) && vert2.length == 3 ) return true;
+    if ( vert3.every( i => i == item ) && vert3.length == 3 ) return true;
+
+    if ( diag1.every( i => i == item ) && diag1.length == 3 ) return true;
+    if ( diag2.every( i => i == item ) && diag2.length == 3 ) return true;
+
+    return false;
+  }
 }
 
 
